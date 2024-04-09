@@ -1,3 +1,52 @@
 .song-entry {
     margin: 2px;
 }
+.dropdown-item:hover {
+    background-color: rgb(181, 181, 181) !important;
+}
+.heart-toggle {
+    color: #EA638C;
+    font-size: 350%;
+}
+.heart-toggle:hover {
+    color: rgb(255, 0, 0) !important;
+}
+#logo {
+    font-size: 160%;
+    color:#F5F3BB !important;
+}
+body {
+    background-color: #3A3042 !important;
+    color: #F3EFF5 !important;
+}
+a {
+    font-size: 120%;
+    font-weight: bold;
+    color: #3AAFB9 !important;
+}
+.btn-secondary {
+    background-color: #F3EFF5 !important;
+}
+
+.song-entry {
+    display:flex;
+    align-items: center;
+}
+.header-bar {
+    display:flex;
+    align-items: flex-end;
+    padding-bottom: 20px;
+}
+a:link {
+    text-decoration: none;
+  }
+  a:visited {
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: none;
+    color: #F5F3BB !important;
+  }
+  a:active {
+    text-decoration: none;
+  }
