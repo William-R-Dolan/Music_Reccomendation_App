@@ -25,6 +25,7 @@ client = MongoClient(uri)
 db = client["MusicUsers"]
 user_col = db["UserName"]
 fav_col = db["Favourites"]
+playlist_col = db["Playlists"]
 #Select the first user
 current_user = user_col.find_one()
 #Select the full list of users
@@ -80,27 +81,49 @@ def search():
 
 @app.route("/favourites", methods=['GET'])
 def favourites():
-    ytmusic = YTMusic()
-    favs = getFavourites()
-    default_songs = []
+    if 'favs' in locals():
+        ytmusic = YTMusic()
+        favs = getFavourites()
+        default_songs = []
 
-    for song in favs:
-        #print("Song")
-        #print(song)
-        songFormat = ytmusic.get_song(song)['videoDetails']
-        songFormat['thumbnails'] = songFormat["thumbnail"]['thumbnails']
-        del songFormat["thumbnail"]
-        default_songs.append(songFormat)
+        for song in favs:
+            print("Song")
+        
+            songFormat = ytmusic.get_song(song)['videoDetails']
+            songFormat['thumbnails'] = songFormat["thumbnail"]['thumbnails']
+            del songFormat["thumbnail"]
+            print(songFormat)
+            default_songs.append(songFormat)
+
+        print("Default Songs:")
+        #default_songs = default_songs[0]
+        print(default_songs)
+
     
-    print("Default Songs:")
-    #default_songs = default_songs[0]
-    print(default_songs)
-
-    if (len(default_songs) > 0):
         return render_template('index.html', default_songs=default_songs, users=users, username=current_user["name"], favourites=favs)
     else:
         return redirect(url_for('homepage'))
 
+@app.route("/recommendations", methods=['GET'])
+def recommendations():
+    if 'favs' in locals():
+        ytmusic = YTMusic()
+        favs = getFavourites()
+        default_songs = []
+        print("a")
+        related = ytmusic.get_watch_playlist(favs[0], limit=20)
+        #print("tracks:")
+        #print(related["tracks"][0])
+        for song in related["tracks"]:
+            song["thumbnails"] = song["thumbnail"]
+            #print(song["thumbnail"])
+            default_songs.append(song)
+        print("Related:")
+        print(related)
+    
+        return render_template('index.html', default_songs=default_songs, users=users, username=current_user["name"], favourites=favs)
+    else:
+        return redirect(url_for('homepage'))
 @app.route('/changeuser', methods=['GET'])
 def changeuser():
     global current_user
