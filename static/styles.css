@@ -5,6 +5,14 @@
     padding-top: 20px !important;
     padding-bottom: 20px !important;
 }
+.song_name {
+    padding-top: 45px !important;
+    padding-bottom: 45px !important;
+
+}
+.semi-link:hover {
+    background-color: #3A3042 ;
+}
 .dropdown-item:hover {
     background-color: rgb(181, 181, 181) !important;
 }
@@ -20,10 +28,10 @@
 }
 #logo {
     font-size: 160%;
-    color:#F5F3BB !important;
+    color:#F3EFF5 !important;
 }
 body {
-    background-color: #3A3042 !important;
+    background-color: #0D1321 !important;
     color: #F3EFF5 !important;
 }
 a {
@@ -44,6 +52,9 @@ a {
     align-items: flex-end;
     padding-bottom: 20px;
 }
+.search-bar {
+    padding-top: 13px
+}
 a:link {
     text-decoration: none;
   }
@@ -52,7 +63,11 @@ a:link {
   }
   a:hover {
     text-decoration: none;
-    color: #F5F3BB !important;
+    color: #3AAFB9 !important;
+  }
+  .login-link:hover {
+    text-decoration: none;
+    color: #3A3042 !important;
   }
   a:active {
     text-decoration: none;

@@ -32,10 +32,12 @@
                 <div class="col-4">
                     <div class="row">
                         <div class="col-2">
-                            Search
+                            <h1>
+                                <div class="search-icon"> <i class="bi bi-search"></i> </div>
+                            </h1>
                         </div>
                         <div class="col-10">
-                            <form action="/search">
+                            <form action="/search" class="search-bar">
                                 <input type="text" id="search" name="search" value="{{search}}">
                                 <input type="submit" value="Submit">
                             </form>
@@ -51,8 +53,8 @@
                             {{username}}
                         </div>
                         <div class="col-6">
-                            <div class="dropdown show">
-                                <a href="/login">Change User</a>
+                            <div>
+                                <a href="/login" class="login-link">Change User</a>
                             </div>
                         </div>
                     </div>
@@ -61,28 +63,28 @@
             <div class="row">
                 <div class="col-3">
                     <a href='/'>
-                        <div class='row sidebar_link {%if type == "none" %} selected {% endif %}'>
+                        <div class='row sidebar_link semi-link {%if type == "none" %} selected {% endif %}'>
                             <div class="col-12">
                                 Home
                             </div>
                         </div>
                     </a>
                     <a href='/favourites'>
-                        <div class='row sidebar_link {%if type == "favourites" %} selected {% endif %}'>
+                        <div class='row sidebar_link semi-link {%if type == "favourites" %} selected {% endif %}'>
                             <div class="col-12">
                                 Favourites
                             </div>
                         </div>
                     </a>
                     <a href='/recommendations'>
-                        <div class='row sidebar_link {%if type == "recommendations" %} selected {% endif %}'>
+                        <div class='row sidebar_link semi-link {%if type == "recommendations" %} selected {% endif %}'>
                             <div class="col-12">
                                 Recommendations
                             </div>
                         </div>
                     </a>
                     <a href='/playlists'>
-                        <div class='row sidebar_link {%if type == "recommendations" %} selected {% endif %}'>
+                        <div class='row sidebar_link semi-link {%if type == "playlists" %} selected {% endif %}'>
                             <div class="col-12">
                                 Playlists For You
                             </div>
@@ -94,10 +96,23 @@
                     {%for album in default_songs%}
                     {% set videoId = album["videoId"] %}
                     <div class="row song-entry">
-                        <div class="col-3">
-                            <a href="https://www.youtube.com/watch?v={{album["videoId"]}}"> {{album["title"]}} </a>
+                        <div class="col-5">
+                            {%if type != "playlists"%}
+                            <a href="https://www.youtube.com/watch?v={{album['videoId']}}">
+                            {%else%}
+                            <a href="https://www.youtube.com/playlist?list={{album['playlistId']}}">
+                            {% endif %}
+                                <div class="row song_name semi-link">
+                                    <div class="col-12">
+                                        {{album["title"]}}
+                                    </div>
+                                </div>
+                            </a>
                         </div>
-                        <div class="col-4">
+                        <div class="col-2">
+
+                            {{album["author"]}}
+
                             {%for artist in album["artists"]%}
 
                             {{artist["name"]}}
@@ -114,7 +129,7 @@
                         <div class="col-2">
 
 
-
+                            {%if type != "playlists"%}
                             {%if album["videoId"] in favourites %}
 
                             <!-- Disike Button -->
@@ -133,6 +148,7 @@
                                     <div class="heart-toggle"><i id='heart-{{album["videoId"]}}' class="bi bi-heart"></i></div>
                                 </a>
                             </div>
+                            {% endif %}
                             {% endif %}
 
 

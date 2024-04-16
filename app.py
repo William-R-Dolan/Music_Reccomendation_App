@@ -5,8 +5,12 @@ from pymongo.mongo_client import MongoClient
 from bson import ObjectId
 from collections import Counter
 
-#import keras
-#import pickle
+#To comment out:
+# import keras
+# from keras.preprocessing.sequence import pad_sequences
+# import pickle
+# import numpy as np
+# import re
 
 from urllib.request import urlopen
 import spotipy
@@ -120,17 +124,17 @@ def favourites():
         default_songs = []
 
         for song in favs:
-            print("Song")
+            #print("Song")
 
             songFormat = ytmusic.get_song(song)['videoDetails']
             songFormat['thumbnails'] = songFormat["thumbnail"]['thumbnails']
             del songFormat["thumbnail"]
-            print(songFormat)
+            #print(songFormat)
             default_songs.append(songFormat)
 
         print("Default Songs:")
         #default_songs = default_songs[0]
-        print(default_songs)
+        print(default_songs[0])
 
         return render_template('index.html', default_songs=default_songs, type="favourites", users=users, username=current_user["name"], favourites=favs)
     else:
@@ -170,18 +174,76 @@ def playlists():
     global users
     ytmusic = YTMusic()
     favs = getFavourites()
+    print("FAVS:")
+    print(favs)
+    model = keras.saving.load_model("model.keras")
+    tokenizer = pickle.load(open('tokenizer.pickle', 'rb'))
+
     if 'favs' in locals():
         default_songs = []
+        user_genres = []
+        playlist_genre = ""
 
-        all_recs = session.get("recs")
+        for favourite in favs:
+            related = ytmusic.get_watch_playlist(favourite, limit=1)
+            lyrics = ""
+            if related["lyrics"] != None:
+                lyrics = ytmusic.get_lyrics(related["lyrics"])
+            if lyrics["lyrics"] != None:
+                lyrics = [ scrubLyrics(lyrics) ]
+                sequence = tokenizer.texts_to_sequences(lyrics)
+                input = pad_sequences(sequence, maxlen=25, dtype='int32', value=0)
+                genre = model.predict(input,batch_size=2,verbose = 0)[0]
 
-        #Builds list out of top 20 related songs
-        for rec in all_recs[:20]:
-            song = ytmusic.get_song(rec)['videoDetails']
-            song["thumbnails"] = song["thumbnail"]['thumbnails']
+                song = ytmusic.get_song(favourite)['videoDetails']
+                print("===============================")
+
+                song_genre = np.argmax(genre)
+                #user_genres.append(song_genre)
+                if (song_genre == 0):
+                    print(song["title"] + ": Hip-Hop")
+                    user_genres.append("Hip-Hop")
+                elif (song_genre == 1):
+                    print(song["title"] + ": Pop")
+                    user_genres.append("Pop")
+                elif (song_genre == 2):
+                    print(song["title"] + ": Country")
+                    user_genres.append("Country")
+                elif (song_genre == 3):
+                    print(song["title"] + ": Rock")
+                    user_genres.append("Rock")
+                elif (song_genre == 4):
+                    print(song["title"] + ": RnB")
+                    user_genres.append("Rhythm and Blues")
+                elif (song_genre == 5):
+                    print(song["title"] + ": Dance")
+                    user_genres.append("Electronic and Dance")
+                #print(user_genres)
+
+        user_genres = [item for items, c in Counter(user_genres).most_common()
+                                      for item in [items] * c]
+        ordered_genres = list(dict.fromkeys(user_genres))
+        print(user_genres)
+        print(ordered_genres)
+
+        if (len(ordered_genres) != 1):
+            if(user_genres.count(ordered_genres[0])*3 > user_genres.count(ordered_genres[1])*2):
+                playlist_genre = ordered_genres[0]
+            else:
+                playlist_genre = ordered_genres[0] + " and " + ordered_genres[1]
+        else:
+            playlist_genre = ordered_genres[0]
+        playlist_genre += " music"
+        print(playlist_genre)
+        search_results = ytmusic.search(playlist_genre, filter="playlists", limit=3)
+
+        for song in search_results:
+            song["playlistId"] = song["browseId"][2:]
             default_songs.append(song)
+        print(default_songs[0])
 
-        return render_template('index.html', default_songs=default_songs, type="recommendations", users=users, username=current_user["name"], favourites=favs)
+        return render_template('index.html', default_songs=default_songs, type="playlists", users=users, username=current_user["name"], favourites=favs)
+        return redirect(url_for('homepage'))
     else:
         return redirect(url_for('homepage'))
 
@@ -242,3 +304,16 @@ def getFavourites():
     favs_full = fav_col.find(fav_query)
     favs = [d['videoId'] for d in favs_full]
     return favs
+
+def scrubLyrics(lyrics):
+    return ""
+    lyrics = lyrics['lyrics']
+    if lyrics != None:
+        lyrics = lyrics.lower()
+        lyrics = re.sub(r'\\n', ' ', lyrics)
+        lyrics = re.sub(r'\\r', ' ', lyrics)
+        lyrics = re.sub(r'[^a-z\s]+', ' ', lyrics)
+    else:
+        print("Scammed")
+        lyrics = ""
+    return lyrics

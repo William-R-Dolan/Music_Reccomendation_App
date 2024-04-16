@@ -35,17 +35,17 @@ for genre in genres:
 
 
 for genre in genres:
-    playlistdata = (spotify.category_playlists(genre["id"], limit=7))
+    playlistdata = (spotify.category_playlists(genre["id"], limit=8))
     playlists = playlistdata["playlists"]["items"]
     if (genre["name"] != "Made For You") & (genre["name"] != "Spotify CLASSICS") & (genre["name"] != "New Releases") & (genre["name"] != "Francophone") & (genre["name"] != "GLOW") & (genre["name"] != "Charts") & (genre["name"] != "Frequency") & (genre["name"] != "Discover") & (genre["name"] != "Decades") & (genre["name"] != "Mood") & (genre["name"] != "Workout") & (genre["name"] != "Indie") & (genre["name"] != "Latin") & (genre["name"] != "Disney"):
         print(genre["name"])
         for playlist in playlists:
-            songdata = (spotify.playlist_items(playlist["id"], limit=50))
+            songdata = (spotify.playlist_items(playlist["id"], limit=100))
             songs = songdata["items"]
             for song in songs:
                 if song["track"] != None:
                     #print(str(song["track"]["name"] + "       By: " + song["track"]["artists"][0]["name"]).encode("utf-8"))
-                    search_results = ytmusic.search(song["track"]["name"], filter="songs", limit=1)
+                    search_results = ytmusic.search(song["track"]["name"] + "       By: " + song["track"]["artists"][0]["name"], filter="songs", limit=1)
 
                     if len(search_results) > 0:
                         related = ytmusic.get_watch_playlist(search_results[0]['videoId'], limit=1)
