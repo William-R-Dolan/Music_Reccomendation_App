@@ -1,8 +1,8 @@
-Flask==3.0.3
-Flask_PyMongo==2.3.0
-keras==3.2.1
-pandas==2.2.2
+Flask==3.0.2
+Flask-PyMongo==2.3.0
+keras==2.15.0
+pandas==2.2.1
 pymongo==4.6.3
 spotipy==2.23.0
-Werkzeug==3.0.2
+Werkzeug==3.0.1
 ytmusicapi==1.5.3
