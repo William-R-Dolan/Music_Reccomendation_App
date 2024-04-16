@@ -5,8 +5,8 @@ from pymongo.mongo_client import MongoClient
 from bson import ObjectId
 from collections import Counter
 
-import keras
-import pickle
+#import keras
+#import pickle
 
 from urllib.request import urlopen
 import spotipy
@@ -49,11 +49,11 @@ print(users)
 @app.route('/', methods=['GET'])
 def homepage():
 
-    model = keras.saving.load_model("model.keras")
-    tokenizer = pickle.load(open('tokenizer.pickle', 'rb'))
+    #model = keras.saving.load_model("model.keras")
+    #tokenizer = pickle.load(open('tokenizer.pickle', 'rb'))
 
 
-    
+
     if not session.get("user"):
         # if not there in the session then redirect to the login page
         return redirect("/login")
