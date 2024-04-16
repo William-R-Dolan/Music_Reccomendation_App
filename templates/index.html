@@ -60,36 +60,34 @@
             </div>
             <div class="row">
                 <div class="col-3">
-                    <div class="row" style="height:40px">
-
-                    </div>
-                    <div class='row {%if type == "none" %} selected {% endif %}'>
-                        <div class="col-12">
-                            <a href='/'>
+                    <a href='/'>
+                        <div class='row sidebar_link {%if type == "none" %} selected {% endif %}'>
+                            <div class="col-12">
                                 Home
-                            </a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row" style="height:40px">
-
-                    </div>
-                    <div class='row {%if type == "favourites" %} selected {% endif %}'>
-                        <div class="col-12">
-                            <a href='/favourites'>
+                    </a>
+                    <a href='/favourites'>
+                        <div class='row sidebar_link {%if type == "favourites" %} selected {% endif %}'>
+                            <div class="col-12">
                                 Favourites
-                            </a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row" style="height:40px">
-
-                    </div>
-                    <div class='row {%if type == "recommendations" %} selected {% endif %}'>
-                        <div class="col-12">
-                            <a href='/recommendations'>
+                    </a>
+                    <a href='/recommendations'>
+                        <div class='row sidebar_link {%if type == "recommendations" %} selected {% endif %}'>
+                            <div class="col-12">
                                 Recommendations
-                            </a>
+                            </div>
                         </div>
-                    </div>
+                    </a>
+                    <a href='/playlists'>
+                        <div class='row sidebar_link {%if type == "recommendations" %} selected {% endif %}'>
+                            <div class="col-12">
+                                Playlists For You
+                            </div>
+                        </div>
+                    </a>
                 </div>
                 <div class="col-9"  style="border-left:solid;"">
                     <!--Element-->

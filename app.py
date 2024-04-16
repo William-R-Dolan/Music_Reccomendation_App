@@ -148,7 +148,7 @@ def recommendations():
         if not session.get("recs"):
             updateRecs()
         if not session.get("recs"):
-            print("WHYYYYYYYYYYYYYYYYYYYYYYYY")
+            #print("WHYYYYYYYYYYYYYYYYYYYYYYYY")
             return redirect("/")
 
         all_recs = session.get("recs")
@@ -163,6 +163,27 @@ def recommendations():
     else:
         return redirect(url_for('homepage'))
 
+@app.route("/playlists", methods=['GET'])
+def playlists():
+    return redirect("/")
+    current_user = session.get("user")
+    global users
+    ytmusic = YTMusic()
+    favs = getFavourites()
+    if 'favs' in locals():
+        default_songs = []
+
+        all_recs = session.get("recs")
+
+        #Builds list out of top 20 related songs
+        for rec in all_recs[:20]:
+            song = ytmusic.get_song(rec)['videoDetails']
+            song["thumbnails"] = song["thumbnail"]['thumbnails']
+            default_songs.append(song)
+
+        return render_template('index.html', default_songs=default_songs, type="recommendations", users=users, username=current_user["name"], favourites=favs)
+    else:
+        return redirect(url_for('homepage'))
 
 @app.route('/addfavourite')
 def addfavourite():

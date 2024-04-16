@@ -1,6 +1,10 @@
 .song-entry {
     margin: 2px;
 }
+.sidebar_link {
+    padding-top: 20px !important;
+    padding-bottom: 20px !important;
+}
 .dropdown-item:hover {
     background-color: rgb(181, 181, 181) !important;
 }
