@@ -112,7 +112,6 @@ jsonschema-specifications==2023.12.1
 keras==2.15.0
 numpy==1.26.4
 oauthlib==3.2.2
-object-detection==0.0.3
 opt-einsum==3.3.0
 optree==0.11.0
 ordered-set==4.0.2
