@@ -21,6 +21,7 @@
         <div class="container">
             <div class="row" style="height:30px">
             </div>
+            <!-- Header bar with the logo and search-->
             <div class="row header-bar" style="height: 10vh; border-bottom:solid">
                 <div class="col-3">
                     <a href="/" >
@@ -31,6 +32,8 @@
                 </div>
                 <div class="col-4">
                     <div class="row">
+
+                        <!-- Search Icon and form -->
                         <div class="col-2">
                             <h1>
                                 <div class="search-icon"> <i class="bi bi-search"></i> </div>
@@ -47,13 +50,14 @@
                 <div class="col-5">
                     <div class="row">
                         <div class="col-2">
-
+                            <!-- This is formatted a little weird because I planned it to work differently initially -->
                         </div>
                         <div class="col-4">
                             {{username}}
                         </div>
                         <div class="col-6">
                             <div>
+                                <!-- User login -->
                                 <a href="/login" class="login-link">Change User</a>
                             </div>
                         </div>
@@ -63,6 +67,7 @@
             <div class="row">
                 <div class="col-3">
                     <a href='/'>
+                        <!-- Sidebar that links the user back to the home page -->
                         <div class='row sidebar_link semi-link {%if type == "none" %} selected {% endif %}'>
                             <div class="col-12">
                                 Home
@@ -70,6 +75,7 @@
                         </div>
                     </a>
                     <a href='/favourites'>
+                        <!-- Sidebar item that links the user to favourites page -->
                         <div class='row sidebar_link semi-link {%if type == "favourites" %} selected {% endif %}'>
                             <div class="col-12">
                                 Favourites
@@ -77,6 +83,7 @@
                         </div>
                     </a>
                     <a href='/recommendations'>
+                        <!-- Sidebar item that links user to the recommendations page -->
                         <div class='row sidebar_link semi-link {%if type == "recommendations" %} selected {% endif %}'>
                             <div class="col-12">
                                 Recommendations
@@ -84,6 +91,7 @@
                         </div>
                     </a>
                     <a href='/playlists'>
+                        <!-- Sidebar item that links user to playlist search -->
                         <div class='row sidebar_link semi-link {%if type == "playlists" %} selected {% endif %}'>
                             <div class="col-12">
                                 Playlists For You
@@ -92,11 +100,12 @@
                     </a>
                 </div>
                 <div class="col-9"  style="border-left:solid;"">
-                    <!--Element-->
+                    <!--Builds list of songs and artists using jinja-->
                     {%for album in default_songs%}
                     {% set videoId = album["videoId"] %}
                     <div class="row song-entry">
                         <div class="col-5">
+                            <!--Links to videos and playlists are slightly different-->
                             {%if type != "playlists"%}
                             <a href="https://www.youtube.com/watch?v={{album['videoId']}}">
                             {%else%}
@@ -111,6 +120,9 @@
                         </div>
                         <div class="col-2">
 
+                            <!-- Sometimes it's called author, other times its a list of artists
+                                 The API isn't always consistant -->
+
                             {{album["author"]}}
 
                             {%for artist in album["artists"]%}
@@ -120,6 +132,7 @@
                             {% endfor %}
                         </div>
                         <div class="col-3">
+                            <!-- Displays the thumbnails-->
                             <img
                             src="{{album['thumbnails'][album['thumbnails']|length-1]['url']}}"
                             style="width:90%; border-radius: 10%;"
@@ -128,8 +141,10 @@
                         </div>
                         <div class="col-2">
 
-
+                            <!-- Doesn't include the favourite button for playlists-->
                             {%if type != "playlists"%}
+                            <!-- The initial values of the favourite button are different depending on whether
+                                 the user has already liked the song, but they are effectively the same button -->
                             {%if album["videoId"] in favourites %}
 
                             <!-- Disike Button -->
@@ -162,35 +177,36 @@
 
                     <script type=text/javascript>
                     $(function() {
+                         //Toggles the button when clicked
                           $('a.fav-toggle').on('click', function(e) {
                             e.preventDefault()
                             vidId = e.currentTarget.id
-                            console.log("toggle")
-                            console.log(vidId)
-
+                            //Gets the video Id
                             link = document.getElementById(vidId)
-
+                            //Change the classes of the button so it changes style
                             if (link.classList.contains("fav")){
                                 link.classList.remove("fav");
                                 link.classList.add("unfav");
-
+                                //Get video data
                                 heart = document.getElementById("heart-"+vidId)
                                 heart.classList.remove("bi-heart");
                                 heart.classList.add("bi-heart-fill");
-
+                                //Call the add favourite function in app.py so changes can be made to the db
                                 $.getJSON('/addfavourite', {
                                     videoid: e.currentTarget.id
                                 },function(data) {});
                                 return false;
                             }
+                            //If the song was a favourite before the button was clicked,
+                            //change classes to become an add-favourite button
                             else if (link.classList.contains("unfav")){
                                 link.classList.remove("unfav");
                                 link.classList.add("fav");
-
+                                //Gets song data
                                 heart = document.getElementById("heart-"+vidId)
                                 heart.classList.remove("bi-heart-fill");
                                 heart.classList.add("bi-heart");
-
+                                //Call the add favourite function in app.py so changes can be made to the db
                                 $.getJSON('/removefavourite', {
                                     videoid: e.currentTarget.id
                                 },function(data) {});

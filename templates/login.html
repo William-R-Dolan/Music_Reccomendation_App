@@ -32,7 +32,6 @@
                 <div class="col-4">
                     <div class="row">
                         <div class="col-2">
-                            
                         </div>
                         <div class="col-10">
                         </div>
@@ -43,10 +42,9 @@
                         <div class="col-2">
                         </div>
                         <div class="col-4">
-                            
                         </div>
                         <div class="col-6">
-                            
+                            <!-- No search bar or links on the login page -->
                         </div>
                     </div>
                 </div>
@@ -71,6 +69,7 @@
                     </div>
                 </div>
                 <div class="col-9"  style="border-left:solid;"">
+                    <!-- Just builds a dropdown list of users to select from -->
                     <form action="/login" method="POST">
                         <select class="" aria-labelledby="dropdownMenuLink" data-toggle="dropdown" role="menu" name="user_id" id="user_id">
                             {%for user in users%}
