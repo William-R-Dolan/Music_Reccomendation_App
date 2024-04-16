@@ -45,22 +45,15 @@
                 <div class="col-5">
                     <div class="row">
                         <div class="col-2">
-                            
+
                         </div>
                         <div class="col-4">
                             {{username}}
                         </div>
                         <div class="col-6">
                             <div class="dropdown show">
-                                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                  Change User
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                  {%for user in users%}
-                                  <a class="dropdown-item" href='/changeuser?newuser={{user["_id"]}}'>{{user["name"]}}</a>
-                                  {% endfor %}
-                                </div>
-                              </div>
+                                <a href="/login">Change User</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -70,17 +63,27 @@
                     <div class="row" style="height:40px">
 
                     </div>
-                    <div class="row">
+                    <div class='row {%if type == "none" %} selected {% endif %}'>
+                        <div class="col-12">
+                            <a href='/'>
+                                Home
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row" style="height:40px">
+
+                    </div>
+                    <div class='row {%if type == "favourites" %} selected {% endif %}'>
                         <div class="col-12">
                             <a href='/favourites'>
                                 Favourites
                             </a>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="row" style="height:40px">
+                    <div class="row" style="height:40px">
 
-                        </div>
+                    </div>
+                    <div class='row {%if type == "recommendations" %} selected {% endif %}'>
                         <div class="col-12">
                             <a href='/recommendations'>
                                 Recommendations
@@ -182,52 +185,6 @@
                           });
                         });
 
-
-                        /*
-                        $(function() {
-                          $('a.fav').on('click', function(e) {
-                            e.preventDefault()
-                            vidId = e.currentTarget.id
-                            console.log("add")
-                            console.log(vidId)
-
-                            link = document.getElementById(vidId)
-                            link.classList.remove("fav");
-                            link.classList.add("unfav");
-
-                            heart = document.getElementById("heart-"+vidId)
-                            heart.classList.remove("bi-heart");
-                            heart.classList.add("bi-heart-fill");
-
-                            $.getJSON('/addfavourite', {
-                                videoid: e.currentTarget.id
-                            },function(data) {});
-                            return false;
-                          });
-                        });
-
-                        $(function() {
-                          $('a.unfav').on('click', function(e) {
-                            e.preventDefault()
-                            vidId = e.currentTarget.id
-                            console.log("remove")
-                            console.log(vidId)
-
-                            link = document.getElementById(vidId)
-                            link.classList.remove("unfav");
-                            link.classList.add("fav");
-
-                            heart = document.getElementById("heart-"+vidId)
-                            heart.classList.remove("bi-heart-fill");
-                            heart.classList.add("bi-heart");
-
-                            $.getJSON('/removefavourite', {
-                                videoid: e.currentTarget.id
-                            },function(data) {});
-                            return false;
-                          });
-                          
-                        });*/
                     </script>
 
 

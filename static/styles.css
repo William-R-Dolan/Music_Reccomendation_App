@@ -11,6 +11,9 @@
 .heart-toggle:hover {
     color: rgb(255, 0, 0) !important;
 }
+.selected {
+    background-color: black;
+}
 #logo {
     font-size: 160%;
     color:#F5F3BB !important;
