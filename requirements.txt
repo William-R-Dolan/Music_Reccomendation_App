@@ -38,10 +38,6 @@ pyRFC3339==1.1
 pyrsistent==0.20.0
 python-dateutil==2.8.2
 python-json-logger==2.0.4
-pytz==2022.7.1
-pywinpty==2.0.13
-PyYAML==6.0.1
-pyzmq==25.1.2
 requests==2.31.0
 spotipy==2.23.0
 tensorflow==2.16.1
